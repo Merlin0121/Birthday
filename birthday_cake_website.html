@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Birthday Cake</title>
+
+<body>
+    <audio  autoplay>
+      <source src="forgive me if u can.mp3" type="audio/mpeg"/>
+    </audio>
+</body>
+<style>
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  #landing, #cake-section {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+  }
+  #landing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+  }
+  #landing h1 {
+    font-size: 3rem;
+    color: #6f3e1f;
+    margin-bottom: 40px;
+  }
+  #start-btn {
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    background: #6f3e1f;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  #start-btn:hover {
+    background: #8b5e2c;
+  }
+  #cake-section {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+  }
+  #cake-container {
+    position: relative;
+    width: 400px;
+    height: 500px;
+    margin: 80px auto 0 auto;
+  }
+  /* Cake tiers */
+  .tier {
+    background: #6f3e1f; /* chocolate */
+    border-radius: 40px 40px 20px 20px;
+    box-shadow: inset 0 10px 20px rgba(255,255,255,0.3);
+    margin: 0 auto;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 1s ease, transform 1s ease;
+    position: relative;
+  }
+  /* Decorative blinking dots on tiers */
+  /* Removed blinking dots on tiers as per user request */
+  /*
+  .tier::before {
+    content: "";
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 8px;
+    height: 8px;
+    background: #fff8b0;
+    border-radius: 50%;
+    box-shadow:
+      30px 0px #fff8b0,
+      60px 0px #fff8b0,
+      90px 0px #fff8b0,
+      120px 0px #fff8b0;
+    animation: blinkDots 2s infinite alternate;
+  }
+  @keyframes blinkDots {
+    0% { opacity: 1; }
+    100% { opacity: 0.3; }
+  }
+  */
+  /* Additional blinking dots on cream layers */
+  /* Removed blinking dots on cream layers as per user request */
+  /*
+  .cream::before {
+    content: "";
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    width: 12px;
+    height: 10px;
+    background: #fff8b0;
+    border-radius: 50%;
+    box-shadow:
+      25px 0px #fff8b0,
+      50px 0px #fff8b0,
+      75px 0px #fff8b0,
+      100px 0px #fff8b0,
+      125px 0px #fff8b0,
+      150px 0px #fff8b0;
+    animation: blinkDots 2.5s infinite alternate;
+  }
+  */
+  #tier-3 {
+    width: 320px;
+    height: 160px;
+    background: #8b4b2e;
+    border-radius: 50px 50px 30px 30px;
+    box-shadow: inset 0 10px 20px rgba(255,255,255,0.2);
+    margin-top: -45px; /* reduced gap */
+  }
+  #tier-2 {
+    width: 260px;
+    height: 120px;
+    margin-top: -40px; /* reduced gap */
+    background: #7a3e1a;
+  }
+  /* Cream layers */
+  .cream {
+    background: #d2691e; /* chocolate cream */
+    border-radius: 60px 60px 20px 20px;
+    box-shadow: inset 0 10px 20px rgba(255,255,255,0.3);
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: opacity 1s ease, transform 1s ease;
+    position: relative;
+    margin: 0 auto;
+    z-index: 10;
+  }
+  #cream-1 {
+    width: 200px;
+    height: 35px;
+    margin-top: -35px; /* reduced gap */
+    z-index: 10;
+    position: relative;
+  }
+  #cream-2 {
+    width: 260px;
+    height: 40px;
+    margin-top: -45px; /* reduced gap */
+    z-index: 10;
+    position: relative;
+  }
+  #cream-3 {
+    width: 320px;
+    height: 45px;
+    margin-top: -45px; /* reduced gap */
+    z-index: 10;
+    position: relative;
+  }
+  #tier-1 {
+    width: 200px;
+    height: 100px;
+    margin-top: -35px;
+    background: #6f3e1f;
+  }
+  /* Caramel cream layers */
+  .caramel-cream {
+    background: #c68642; /* caramel color */
+    border-radius: 60px 60px 20px 20px;
+    box-shadow: inset 0 10px 20px rgba(255, 220, 150, 0.6);
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: opacity 1s ease, transform 1s ease;
+    position: relative;
+    margin: 0 auto;
+  }
+  #caramel-cream-3 {
+    width: 320px;
+    height: 50px;
+    margin-top: -40px;
+  }
+  #caramel-cream-2 {
+    width: 260px;
+    height: 40px;
+    margin-top: -30px;
+  }
+  #caramel-cream-1 {
+    width: 200px;
+    height: 35px;
+    margin-top: -25px;
+  }
+  /* Single cream on top */
+  #cream {
+    position: absolute;
+    top: 180px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 260px;
+    height: 120px;
+    background: #d2691e; /* chocolate cream */
+    border-radius: 0px 0px 0px 0px;
+    box-shadow: inset 0 10px 20px rgba(255,255,255,0.3);
+    transition: opacity 1s ease, transform 1s ease;
+    opacity: 0;
+    animation: blink 1.5s infinite alternate;
+  }
+  @keyframes blink {
+    0% { opacity: 1; }
+    100% { opacity: 0.5; }
+  }
+  /* Candles container */
+  #candles {
+    position: absolute;
+    top: -68px; /* slightly lower for better alignment */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    opacity: 0;
+  }
+  /* Single candle */
+  .candle {
+    width: 14px; /* slightly wider */
+    height: 56px; /* slightly taller */
+    background: linear-gradient(135deg, #fff5e1, #f9d976);
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    border: 1px solid #f9d976;
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  /* Candle flame */
+  .flame {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18px;
+    height: 28px;
+    background: radial-gradient(circle at center, #fff8b0 0%, #ffb300 70%, transparent 90%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    filter: drop-shadow(0 0 6px #ffb300);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+  @keyframes flicker {
+    0% { transform: translateX(-50%) scale(1); opacity: 1; }
+    100% { transform: translateX(-50%) scale(1.1); opacity: 0.8; }
+  }
+  /* Birthday message */
+  #message {
+    margin-top: -170px;
+    font-size: 3rem;
+    color: #6f3e1f;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+   #message1 {
+    left: 100px;
+    font-size: 3rem;
+    color: #6f3e1f;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  /* Starting message */
+  #start-message {
+    font-size: 2rem;
+    color: #fff8b0;
+    opacity: 0;
+    margin-bottom: 5px;
+    transition: opacity 1s ease;
+  }
+  #start-message1 {
+    font-size: 2rem;
+    color: #fff8b0;
+    opacity: 0;
+    margin-bottom: 20px;
+    transition: opacity 1s ease;
+  }
+  /* Balloon styles */
+  .balloon {
+    position: absolute;
+    bottom: 100px; /* Raised balloons to be roughly level with cake */
+    width: 40px;
+    height: 60px;
+    background: radial-gradient(circle at 30% 30%, #ff4d4d, #b30000);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    opacity: 0.8;
+    animation: floatUp 6s ease-in infinite;
+  }
+  .balloon.blue {
+    background: radial-gradient(circle at 30% 30%, #4d79ff, #0033b3);
+  }
+  .balloon.green {
+    background: radial-gradient(circle at 30% 30%, #4dff88, #00994d);
+  }
+  .balloon.yellow {
+    background: radial-gradient(circle at 30% 30%, #ffff66, #b3b300);
+  }
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0) translateX(0);
+      opacity: 0.8;
+    }
+    50% {
+      transform: translateY(-200px) translateX(20px);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-400px) translateX(-20px);
+      opacity: 0;
+    }
+  }
+  /* Fireworks container */
+  #fireworks-left, #fireworks-right {
+    position: absolute;
+    top: 50%;
+    width: 200px;
+    height: 300px;
+    pointer-events: none;
+    z-index: 1000;
+  }
+  #fireworks-left {
+    left: 10%;
+    transform: translateY(-50%);
+  }
+  #fireworks-right {
+    right: 10%;
+    transform: translateY(-50%);
+  }
+  /* Firework particle */
+  .firework {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: radial-gradient(circle, #fff8b0, #f9f8f7);
+    border-radius: 50%;
+    opacity: 0;
+    animation: explode 1s ease-out forwards;
+  }
+  @keyframes explode {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--x), var(--y)) scale(0);
+    }
+  }
+</style>
+</head>
+<body>
+  <div id="landing">
+    <h1>Bánh sinh nhật đến đây</h1>
+    <button id="start-btn">Okay!</button>
+  </div>
+  <div id="fireworks"></div>
+  <div class="balloon red" style="left: 10%; animation-delay: 0s;"></div>
+  <div class="balloon blue" style="left: 25%; animation-delay: 1.5s;"></div>
+  <div class="balloon green" style="left: 40%; animation-delay: 3s;"></div>
+  <div class="balloon yellow" style="left: 55%; animation-delay: 4.5s;"></div>
+  <div class="balloon red" style="left: 70%; animation-delay: 6s;"></div>
+  <div class="balloon blue" style="left: 85%; animation-delay: 7.5s;"></div>
+  <div id="cake-section">
+    <div id="start-message">Vậy là đã thành người lớn rồi ha:DD</div>
+    <div id="start-message1"> Chặng đường phía trước sẽ khó khăn hơn. Hãy cố lên nhé :3.    Còn đây là cái bánh kem của cậu :DD</div>
+    <div id="cake-container">
+      <div id="cream-1" class="cream"></div>
+      <div id="caramel-cream-1" class="caramel-cream"></div>
+      <div id="tier-1" class="tier"></div>
+      <div id="cream-2" class="cream"></div>
+      <div id="caramel-cream-2" class="caramel-cream"></div>
+      <div id="tier-2" class="tier"></div>
+      <div id="cream-3" class="cream"></div>
+      <div id="caramel-cream-3" class="caramel-cream"></div>
+      <div id="tier-3" class="tier"></div>
+      <div id="candles">
+        <div class="candle"><div class="flame"></div></div>
+      </div>
+    </div>
+    <div id="message">Happy Birthday to <span id="name"></span> Trần Thiên Minh!</div>
+    <div id="message1">10/6/2007-10/6/2025<span id="name"> 18+</span>!</div>
+  </div>
+  <script>
+    // Customize the birthday name here:
+    const birthdayName = "Myself,";
+
+    // Elements references
+    const landing = document.getElementById('landing');
+    const startBtn = document.getElementById('start-btn');
+    const cakeSection = document.getElementById('cake-section');
+    const startMessage = document.getElementById('start-message');
+    const startMessage1 = document.getElementById('start-message1');
+    const tier3 = document.getElementById('tier-3');
+    const cream3 = document.getElementById('cream-3');
+    const caramelCream3 = document.getElementById('caramel-cream-3');
+    const tier2 = document.getElementById('tier-2');
+    const cream2 = document.getElementById('cream-2');
+    const caramelCream2 = document.getElementById('caramel-cream-2');
+    const tier1 = document.getElementById('tier-1');
+    const cream1 = document.getElementById('cream-1');
+    const caramelCream1 = document.getElementById('caramel-cream-1');
+    const candles = document.getElementById('candles');
+    const message = document.getElementById('message');
+    const message1 = document.getElementById('message1');
+    const nameSpan = document.getElementById('name');
+
+    // Set the birthday name text
+    nameSpan.textContent = birthdayName;
+
+    // Helper delay function
+    function delay(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+  // Helper function for typing effect
+  async function typeText(element, text, delayTime = 100) {
+    element.textContent = '';
+    for (let i = 0; i < text.length; i++) {
+      element.textContent += text.charAt(i);
+      await delay(delayTime);
+    }
+  }
+
+  // Animation sequence function
+  async function animateCake() {
+    // Show first starting message with typing effect
+    startMessage.style.opacity = '1';
+    const fullText1 = startMessage.textContent;
+    await typeText(startMessage, fullText1, 100);
+    await delay(1000);
+    startMessage.style.opacity = '0';
+
+    // Show second starting message with typing effect
+    startMessage1.style.opacity = '1';
+    const fullText2 = startMessage1.textContent;
+    await typeText(startMessage1, fullText2, 100);
+    await delay(2000);
+    startMessage1.style.opacity = '0';
+    await delay(1000);
+
+    // Show cream 1
+    cream1.style.opacity = '1';
+    cream1.style.transform = 'scaleX(1)';
+    await delay(1500);
+
+    // Show caramel cream 1
+    caramelCream1.style.opacity = '1';
+    caramelCream1.style.transform = 'scaleX(1)';
+    await delay(1500);
+
+    // Show tier 1 (bottom)
+    tier1.style.opacity = '1';
+    tier1.style.transform = 'scale(1)';
+    await delay(1500);
+
+    // Show cream 2
+    cream2.style.opacity = '1';
+    cream2.style.transform = 'scaleX(1)';
+    await delay(1500);
+
+    // Show caramel cream 2
+    caramelCream2.style.opacity = '1';
+    caramelCream2.style.transform = 'scaleX(1)';
+    await delay(1500);
+
+    // Show tier 2 (middle)
+    tier2.style.opacity = '1';
+    tier2.style.transform = 'scale(1)';
+    await delay(1500);
+
+    // Show cream 3
+    cream3.style.opacity = '1';
+    cream3.style.transform = 'scaleX(1)';
+    await delay(1500);
+
+    // Show caramel cream 3
+    caramelCream3.style.opacity = '1';
+    caramelCream3.style.transform = 'scaleX(1)';
+    await delay(1500);
+
+    // Show tier 3 (top)
+    tier3.style.opacity = '1';
+    tier3.style.transform = 'scale(1)';
+    await delay(1500);
+
+    // Show candles
+    candles.style.opacity = '1';
+    await delay(1500);
+
+    // Show birthday message with typing effect
+    message.style.opacity = '1';
+    const fullMessage1 = message.textContent;
+    await typeText(message, fullMessage1, 100);
+    await delay(1000);
+
+    // Show second birthday message with typing effect
+    message1.style.opacity = '1';
+    const fullMessage2 = message1.textContent;
+    await typeText(message1, fullMessage2, 100);
+    await delay(1000);
+
+    // Start fireworks animation
+    startFireworks();
+
+    // Show balloons after a delay following fireworks start
+    await delay(2000);
+    const balloons = document.querySelectorAll('.balloon');
+    balloons.forEach(balloon => {
+      balloon.style.opacity = '0.8';
+      balloon.style.animationPlayState = 'running';
+    });
+  }
+
+  // Fireworks animation logic
+  const fireworksContainerLeft = document.getElementById('fireworks-left');
+  const fireworksContainerRight = document.getElementById('fireworks-right');
+
+  function createFireworkParticle(container, x, y, angle, distance, delay) {
+    const particle = document.createElement('div');
+    particle.classList.add('firework');
+    particle.style.left = x + 'px';
+    particle.style.top = y + 'px';
+    const rad = angle * (Math.PI / 180);
+    const dx = Math.cos(rad) * distance;
+    const dy = Math.sin(rad) * distance;
+    particle.style.setProperty('--x', dx + 'px');
+    particle.style.setProperty('--y', dy + 'px');
+    particle.style.animationDelay = delay + 's';
+    container.appendChild(particle);
+    setTimeout(() => {
+      container.removeChild(particle);
+    }, 1500);
+  }
+
+  function startFireworks() {
+    const centerXLeft = fireworksContainerLeft.clientWidth / 2;
+    const centerYLeft = fireworksContainerLeft.clientHeight / 2;
+    const centerXRight = fireworksContainerRight.clientWidth / 2;
+    const centerYRight = fireworksContainerRight.clientHeight / 2;
+    for (let i = 0; i < 20; i++) {
+      const angle = (360 / 20) * i;
+      const distance = 100 + Math.random() * 50;
+      const delay = i * 0.05;
+      createFireworkParticle(fireworksContainerLeft, centerXLeft, centerYLeft, angle, distance, delay);
+      createFireworkParticle(fireworksContainerRight, centerXRight, centerYRight, angle, distance, delay);
+    }
+    setTimeout(startFireworks, 2000);
+  }
+
+  // Start button click handler
+  startBtn.addEventListener('click', () => {
+    landing.style.display = 'none';
+    cakeSection.style.display = 'flex';
+    cakeSection.style.flexDirection = 'column';
+    cakeSection.style.alignItems = 'center';
+    animateCake();
+  });
+  </script>
+  <div id="fireworks-left"></div>
+  <div id="fireworks-right"></div>
+</body>
+</html>
